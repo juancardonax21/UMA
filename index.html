@@ -8,18 +8,20 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #222; min-height: 100vh; }
 
-    /* ── Language switcher ── */
-    .lang-bar {
-      background: #0f2647; padding: 10px 20px;
-      display: flex; justify-content: flex-end; align-items: center; gap: 6px;
+    /* ── Language switcher (inside header, centered) ── */
+    .lang-switcher {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; margin-top: 18px; padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.2);
     }
-    .lang-bar span { color: rgba(255,255,255,0.6); font-size: 0.8rem; margin-right: 4px; }
+    .lang-label { color: rgba(255,255,255,0.65); font-size: 0.82rem; }
     .lang-btn {
-      background: transparent; border: 1.5px solid rgba(255,255,255,0.35);
-      color: rgba(255,255,255,0.65); border-radius: 5px; padding: 5px 16px;
-      font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.15s;
+      background: transparent; border: 1.5px solid rgba(255,255,255,0.4);
+      color: rgba(255,255,255,0.7); border-radius: 20px; padding: 6px 20px;
+      font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.15s;
+      letter-spacing: 0.2px;
     }
-    .lang-btn:hover { border-color: white; color: white; }
+    .lang-btn:hover { border-color: white; color: white; background: rgba(255,255,255,0.1); }
     .lang-btn.active { background: white; border-color: white; color: #1a3a6b; }
 
     /* ── Language visibility ── */
@@ -197,20 +199,19 @@
 </head>
 <body>
 
-<!-- LANGUAGE BAR -->
-<div class="lang-bar">
-  <span>Language / Idioma:</span>
-  <button class="lang-btn active" onclick="setLang('en')" id="btn-en">English</button>
-  <button class="lang-btn" onclick="setLang('es')" id="btn-es">Español</button>
-</div>
-
 <div class="wrapper">
 
-  <!-- HEADER -->
+  <!-- HEADER with language switcher -->
   <div class="header">
     <h1>GERS Expert Panel Questionnaire</h1>
     <p class="subtitle t-en">Global Expectations Reputation Scale — Content Validity Assessment</p>
     <p class="subtitle t-es">Escala Global de Expectativas Reputacionales — Evaluación de Validez de Contenido</p>
+    <div class="lang-switcher">
+      <span class="lang-label t-en">Language:</span>
+      <span class="lang-label t-es">Idioma:</span>
+      <button class="lang-btn active" onclick="setLang('en')" id="btn-en">English</button>
+      <button class="lang-btn" onclick="setLang('es')" id="btn-es">Español</button>
+    </div>
   </div>
 
   <!-- FORM CARD -->
@@ -221,10 +222,10 @@
 
       <!-- CONTEXT BOX -->
       <div class="context-box">
-        <p class="t-en">You participated in a structured validation process during the development of the theoretical model underlying this scale. At that time, items were presented as candidate indicators of institutionalized stakeholder expectations in corporate reputation assessment, as part of a broader model validation exercise. This questionnaire formalizes that process for academic documentation purposes.</p>
-        <p class="t-es">Participaste en un proceso de validación durante el desarrollo del modelo teórico que subyace a esta escala. En aquel momento, los ítems se presentaron como indicadores candidatos de las expectativas institucionalizadas de los stakeholders en la evaluación de reputación corporativa. Este cuestionario formaliza ese proceso para su documentación académica.</p>
-        <p style="margin-top:10px" class="t-en">The scale — <strong>GERS (Global Expectations Reputation Scale)</strong> — operationalizes corporate reputation as <em>stakeholders' perceived alignment with institutionalized expectations</em>: the normative standards defining legitimate organizational conduct. Your responses are anonymous in the publication.</p>
-        <p style="margin-top:10px" class="t-es">La escala — <strong>GERS (Global Expectations Reputation Scale)</strong> — operacionaliza la reputación corporativa como el <em>alineamiento percibido con las expectativas institucionalizadas</em>: los estándares normativos que definen la conducta organizacional legítima. Tus respuestas son anónimas en la publicación.</p>
+        <p class="t-en">As an expert in corporate reputation, we would like your assessment of a theoretical model that takes institutionalized social expectations as the framework for how stakeholders evaluate organizational behavior — the normative standards that define legitimate organizational conduct. Your responses are anonymous in the publication.</p>
+        <p class="t-es">Como experto/a en reputación corporativa, queremos pedirte tu valoración sobre un modelo teórico que toma las expectativas institucionalizadas a nivel social como marco para la evaluación de los stakeholders sobre el comportamiento de las empresas y organizaciones — los estándares normativos que definen la conducta organizacional legítima. Tus respuestas son anónimas en la publicación.</p>
+
+
       </div>
 
       <!-- METHODOLOGY (collapsible) -->
@@ -236,8 +237,8 @@
           <span class="summary-caret">▸</span>
         </summary>
         <div class="method-body">
-          <p class="method-intro t-en">The five GERS items were not formulated a priori. They emerged from a three-stage data-driven process applied to the consolidated academic literature on corporate reputation.</p>
-          <p class="method-intro t-es">Los cinco ítems GERS no fueron formulados a priori. Emergieron de un proceso de tres etapas aplicado a la literatura académica consolidada sobre reputación corporativa.</p>
+          <p class="method-intro t-en">The five items emerged from a bibliometric mapping of 948 articles on corporate reputation (Scopus, 1997–2018), generating 44 terms grouped into 7 thematic clusters representing the intellectual structure of the field. Through semantic vector analysis (NLP), the semantic core of each cluster was identified and consolidated into 5 item formulations.<br><br>Your assessment validates whether the computationally identified semantic cores genuinely represent, in your expert opinion, the institutionalized expectations that define corporate reputation.</p>
+          <p class="method-intro t-es">Los cinco ítems emergieron de un proceso de mapeo bibliométrico de 948 artículos sobre reputación corporativa (Scopus, 1997–2018), generando 44 términos en 7 clústeres temáticos que representan la estructura intelectual del campo. A través del análisis vectorial semántico (NLP) se identificó el núcleo semántico de cada uno de estos clústeres, que se consolidaron en 5 formulaciones.<br><br>Tu evaluación valida si los núcleos semánticos identificados computacionalmente representan genuinamente y en tu opinión de experto/a las expectativas institucionalizadas que definen la reputación corporativa.</p>
           <div class="method-steps">
             <div class="method-step">
               <div class="step-num">1</div>
@@ -286,25 +287,25 @@
       <!-- SECTION 1 -->
       <div class="section-title">
         <span class="section-number">1</span>
-        <span class="t-en">Participation Confirmation</span>
-        <span class="t-es">Confirmación de participación</span>
+        <span class="t-en">Participation</span>
+        <span class="t-es">Participación</span>
       </div>
-      <p class="section-desc t-en">Please confirm your involvement in the model validation process.</p>
-      <p class="section-desc t-es">Por favor confirma tu participación en el proceso de validación del modelo.</p>
+      <p class="section-desc t-en">Please indicate your method of participation in the model validation process.</p>
+      <p class="section-desc t-es">Por favor, indica el método de participación en el proceso de validación del modelo.</p>
 
       <div class="radio-group">
         <div class="radio-option">
           <input type="radio" name="participation" id="p1" value="reviewed_items" required>
           <label for="p1">
             <span class="t-en">I reviewed these items and provided feedback as part of the model validation process.</span>
-            <span class="t-es">Revisé estos ítems y di feedback como parte del proceso de validación del modelo.</span>
+            <span class="t-es">He revisado estos ítems y he dado feedback como parte del proceso de validación del modelo.</span>
           </label>
         </div>
         <div class="radio-option">
           <input type="radio" name="participation" id="p2" value="general_discussion">
           <label for="p2">
             <span class="t-en">I participated in the general model discussion but did not specifically evaluate these items.</span>
-            <span class="t-es">Participé en la discusión general del modelo pero no evalué específicamente estos ítems.</span>
+            <span class="t-es">He participado en la discusión general del modelo pero no he evaluado específicamente estos ítems.</span>
           </label>
         </div>
       </div>
@@ -321,8 +322,8 @@
         <span class="t-en">Item Representativeness</span>
         <span class="t-es">Representatividad de los ítems</span>
       </div>
-      <p class="section-desc t-en">For each item, indicate to what extent it represents an institutionalized expectation that stakeholders hold about organizations when forming reputational judgments.</p>
-      <p class="section-desc t-es">Para cada ítem, indica en qué medida representa una expectativa institucionalizada que los stakeholders tienen sobre las organizaciones al formar sus juicios reputacionales.</p>
+      <p class="section-desc t-en">For each item, indicate to what extent it represents an institutionalized expectation that stakeholders take into account when forming reputational judgments about organizations.</p>
+      <p class="section-desc t-es">Para cada ítem, indica en qué medida representa una expectativa institucionalizada que los stakeholders tienen en cuenta al formar sus juicios reputacionales sobre las organizaciones.</p>
 
       <div class="scale-header">
         <div class="col-items"><span class="t-en">Item</span><span class="t-es">Ítem</span></div>
