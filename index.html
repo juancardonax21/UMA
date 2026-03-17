@@ -603,7 +603,7 @@
 
 <script>
   // ── Replace with your deployed Apps Script URL ──
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyyyHpuOyA9pQs85GI8lV02s4Ghf6tk3mpuOblsPu-8NET7gbD24ys9dpwKyDk8oYaJJA/exec";
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdtuoM4ltx7768LjQxEFJNNbHl015vRr52WV_-L_W8T67IcZ6zQ0PVVXThoLuihEJBfg/exec";
 
   // ── Progress bar update
   function updateProgress() {
@@ -712,17 +712,42 @@
     try {
       const data = collectData();
 
-      await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' }
-      });
+      // Apps Script requires no-cors mode from external origins.
+      // We send as FormData via a hidden form to avoid CORS preflight.
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = APPS_SCRIPT_URL;
+      form.target = 'hidden-iframe';
+      form.style.display = 'none';
 
-      // Show success
-      document.getElementById('form-wrapper').style.display = 'none';
-      const success = document.getElementById('success-screen');
-      success.style.display = 'block';
-      success.scrollIntoView({ behavior: 'smooth' });
+      // Send all data as a single JSON field
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'payload';
+      input.value = JSON.stringify(data);
+      form.appendChild(input);
+      document.body.appendChild(form);
+
+      // Hidden iframe to absorb the response (avoids page redirect)
+      let iframe = document.getElementById('hidden-iframe');
+      if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.name = 'hidden-iframe';
+        iframe.id = 'hidden-iframe';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+      }
+
+      form.submit();
+      document.body.removeChild(form);
+
+      // Show success after a short delay (iframe response takes ~1s)
+      setTimeout(() => {
+        document.getElementById('form-wrapper').style.display = 'none';
+        const success = document.getElementById('success-screen');
+        success.style.display = 'block';
+        success.scrollIntoView({ behavior: 'smooth' });
+      }, 1200);
 
     } catch (err) {
       btn.disabled = false;
