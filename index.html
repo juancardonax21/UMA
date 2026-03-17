@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GERS Expert Panel Questionnaire</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6fb;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .wrapper {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: #1a3a6b;
+      color: white;
+      padding: 32px 36px 28px;
+      border-radius: 10px 10px 0 0;
+      margin-bottom: 0;
+    }
+    .header h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: 0.3px; margin-bottom: 6px; }
+    .header .subtitle { font-size: 0.95rem; opacity: 0.85; margin-bottom: 14px; }
+    .header .lang-note {
+      font-size: 0.82rem;
+      background: rgba(255,255,255,0.12);
+      border-radius: 6px;
+      padding: 8px 12px;
+      opacity: 0.9;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: white;
+      border: 1px solid #dde3f0;
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      padding: 36px;
+      margin-bottom: 20px;
+    }
+    .card + .card {
+      border-top: 1px solid #dde3f0;
+      border-radius: 10px;
+      margin-top: 16px;
+    }
+
+    /* ── Section headings ── */
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a3a6b;
+      margin-bottom: 4px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #eef2f9;
+    }
+    .section-number {
+      display: inline-block;
+      background: #1a3a6b;
+      color: white;
+      border-radius: 50%;
+      width: 22px; height: 22px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-align: center;
+      line-height: 22px;
+      margin-right: 8px;
+    }
+    .section-desc {
+      font-size: 0.88rem;
+      color: #555;
+      margin: 10px 0 20px;
+      line-height: 1.5;
+    }
+    .section-desc .es { color: #777; font-style: italic; }
+
+    /* ── Context box ── */
+    .context-box {
+      background: #f5f7fb;
+      border-left: 4px solid #1a3a6b;
+      border-radius: 0 6px 6px 0;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #333;
+    }
+    .context-box p + p { margin-top: 10px; }
+    .context-box .es { color: #666; font-style: italic; margin-top: 6px; }
+
+    /* ── Radio group (participation) ── */
+    .radio-group { display: flex; flex-direction: column; gap: 12px; }
+    .radio-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: #f9fafb;
+      border: 1.5px solid #dde3f0;
+      border-radius: 8px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .radio-option:hover { border-color: #1a3a6b; background: #f0f4ff; }
+    .radio-option input[type="radio"] { margin-top: 3px; accent-color: #1a3a6b; flex-shrink: 0; }
+    .radio-option label { cursor: pointer; font-size: 0.9rem; line-height: 1.5; }
+    .radio-option label .es { display: block; color: #777; font-style: italic; font-size: 0.84rem; margin-top: 2px; }
+
+    /* ── Scale table ── */
+    .scale-header {
+      display: flex;
+      align-items: center;
+      background: #1a3a6b;
+      color: white;
+      border-radius: 8px 8px 0 0;
+      padding: 10px 16px;
+      font-size: 0.82rem;
+      gap: 8px;
+      margin-bottom: 0;
+    }
+    .scale-header .col-items { flex: 1; }
+    .scale-header .col-scores {
+      display: flex;
+      gap: 0;
+      width: 300px;
+      text-align: center;
+    }
+    .scale-header .col-scores span {
+      flex: 1;
+      font-size: 0.75rem;
+      text-align: center;
+    }
+    .scale-legend {
+      background: #eef2f9;
+      padding: 7px 16px;
+      font-size: 0.78rem;
+      color: #444;
+      border-left: 1px solid #dde3f0;
+      border-right: 1px solid #dde3f0;
+    }
+
+    .item-row {
+      display: flex;
+      align-items: center;
+      border: 1px solid #dde3f0;
+      border-top: none;
+      padding: 14px 16px;
+      gap: 8px;
+      background: white;
+      transition: background 0.12s;
+    }
+    .item-row:last-child { border-radius: 0 0 8px 8px; }
+    .item-row:hover { background: #fafbff; }
+
+    .item-label {
+      flex: 1;
+    }
+    .item-label .dim {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: #1a3a6b;
+      margin-bottom: 2px;
+    }
+    .item-label .en { font-size: 0.84rem; color: #333; font-style: italic; }
+    .item-label .es { font-size: 0.80rem; color: #777; font-style: italic; margin-top: 2px; }
+
+    .score-options {
+      display: flex;
+      width: 300px;
+      gap: 0;
+    }
+    .score-cell {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .score-cell label {
+      font-size: 0.75rem;
+      color: #888;
+    }
+    .score-cell input[type="radio"] {
+      accent-color: #1a3a6b;
+      width: 17px; height: 17px;
+    }
+
+    /* ── Global score ── */
+    .global-question {
+      background: #f5f7fb;
+      border: 1px solid #dde3f0;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+    }
+    .global-question p { font-size: 0.9rem; line-height: 1.5; margin-bottom: 4px; }
+    .global-question .es { color: #666; font-style: italic; font-size: 0.85rem; }
+    .global-score-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .global-score-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .global-score-btn input[type="radio"] { accent-color: #1a3a6b; width: 18px; height: 18px; }
+    .global-score-btn label { font-size: 0.78rem; color: #555; text-align: center; }
+
+    /* ── Textarea ── */
+    textarea {
+      width: 100%;
+      border: 1.5px solid #dde3f0;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 90px;
+      color: #333;
+      transition: border-color 0.15s;
+    }
+    textarea:focus { outline: none; border-color: #1a3a6b; }
+    textarea::placeholder { color: #bbb; }
+
+    /* ── Profile fields ── */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    @media (max-width: 560px) { .profile-grid { grid-template-columns: 1fr; } }
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+    .field-group label { font-size: 0.84rem; font-weight: 600; color: #444; }
+    .field-group .sublabel { font-size: 0.78rem; color: #888; font-style: italic; }
+    input[type="text"], input[type="number"], select {
+      border: 1.5px solid #dde3f0;
+      border-radius: 7px;
+      padding: 9px 12px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: #333;
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+    input[type="text"]:focus, input[type="number"]:focus, select:focus {
+      outline: none; border-color: #1a3a6b;
+    }
+
+    /* ── Submit button ── */
+    .submit-area { text-align: center; margin-top: 28px; }
+    button[type="submit"] {
+      background: #1a3a6b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 48px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: background 0.15s, transform 0.1s;
+    }
+    button[type="submit"]:hover { background: #14305a; transform: translateY(-1px); }
+    button[type="submit"]:disabled { background: #aab; cursor: not-allowed; transform: none; }
+
+    /* ── Error / success states ── */
+    .error-msg { color: #c0392b; font-size: 0.82rem; margin-top: 6px; display: none; }
+    .error-msg.show { display: block; }
+    .field-error input, .field-error select { border-color: #c0392b !important; }
+
+    /* ── Success screen ── */
+    #success-screen {
+      display: none;
+      text-align: center;
+      padding: 60px 30px;
+    }
+    #success-screen .checkmark {
+      font-size: 3rem;
+      margin-bottom: 16px;
+    }
+    #success-screen h2 { color: #1a3a6b; margin-bottom: 10px; }
+    #success-screen p { color: #555; font-size: 0.95rem; line-height: 1.6; }
+
+    /* ── Progress bar ── */
+    .progress-bar {
+      height: 4px;
+      background: #dde3f0;
+      border-radius: 2px;
+      margin: 20px 0 28px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: #1a3a6b;
+      width: 0%;
+      transition: width 0.3s;
+      border-radius: 2px;
+    }
+
+    /* ── Required marker ── */
+    .req { color: #c0392b; margin-left: 2px; }
+
+    /* ── Separator ── */
+    hr.sep { border: none; border-top: 1px solid #eee; margin: 24px 0; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>GERS Expert Panel Questionnaire</h1>
+    <div class="subtitle">Global Expectations Reputation Scale — Content Validity Assessment</div>
+    <div class="lang-note">
+      This questionnaire is bilingual (English / Spanish). Each item is presented in both languages.<br>
+      Este cuestionario es bilingüe. Cada ítem se presenta en inglés y español.
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="card" id="form-wrapper">
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+    <form id="gers-form" novalidate>
+
+      <!-- CONTEXT -->
+      <div class="context-box">
+        <p>You participated in a structured validation process during the development of the theoretical model underlying this scale. At that time, items were presented as candidate indicators of institutionalized stakeholder expectations in corporate reputation assessment, as part of a broader model validation exercise. This questionnaire formalizes that process for academic documentation purposes.</p>
+        <p class="es">Participaste en un proceso de validación durante el desarrollo del modelo teórico que subyace a esta escala. En aquel momento, los ítems se presentaron como indicadores candidatos de las expectativas institucionalizadas de los stakeholders. Este cuestionario formaliza ese proceso para su documentación académica.</p>
+        <p style="margin-top:12px">The scale — <strong>GERS (Global Expectations Reputation Scale)</strong> — operationalizes corporate reputation as <em>stakeholders' perceived alignment with institutionalized expectations</em>: the normative standards defining legitimate organizational conduct. Your responses are anonymous. Only aggregate statistics will be reported.</p>
+        <p class="es">La escala GERS operacionaliza la reputación corporativa como el alineamiento percibido con las expectativas institucionalizadas. Tus respuestas son anónimas.</p>
+      </div>
+
+      <!-- SECTION 1: PARTICIPATION -->
+      <div class="section-title">
+        <span class="section-number">1</span>
+        Participation Confirmation / Confirmación de participación
+      </div>
+      <p class="section-desc">
+        Please confirm your involvement in the model validation process.<br>
+        <span class="es">Por favor confirma tu participación en el proceso de validación del modelo.</span>
+      </p>
+
+      <div class="radio-group" id="participation-group">
+        <div class="radio-option">
+          <input type="radio" name="participation" id="p1" value="reviewed_items" required>
+          <label for="p1">
+            I reviewed these items and provided feedback as part of the model validation process.
+            <span class="es">Revisé estos ítems y di feedback como parte del proceso de validación del modelo.</span>
+          </label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="participation" id="p2" value="general_discussion">
+          <label for="p2">
+            I participated in the general model discussion but did not specifically evaluate these items.
+            <span class="es">Participé en la discusión general del modelo pero no evalué específicamente estos ítems.</span>
+          </label>
+        </div>
+      </div>
+      <p class="error-msg" id="err-participation">Please select an option. / Por favor selecciona una opción.</p>
+
+      <hr class="sep">
+
+      <!-- SECTION 2: ITEM REPRESENTATIVENESS -->
+      <div class="section-title">
+        <span class="section-number">2</span>
+        Item Representativeness / Representatividad de los ítems
+      </div>
+      <p class="section-desc">
+        For each item, indicate to what extent it represents an institutionalized expectation that stakeholders hold about organizations when forming reputational judgments.<br>
+        <span class="es">Para cada ítem, indica en qué medida representa una expectativa institucionalizada que los stakeholders tienen sobre las organizaciones al formar sus juicios reputacionales.</span>
+      </p>
+
+      <!-- Scale header -->
+      <div class="scale-header">
+        <div class="col-items">Item</div>
+        <div class="col-scores">
+          <span>1<br><small>Not at all</small></span>
+          <span>2<br><small>Slightly</small></span>
+          <span>3<br><small>Somewhat</small></span>
+          <span>4<br><small>Quite</small></span>
+          <span>5<br><small>Highly</small></span>
+          <span>N/A</span>
+        </div>
+      </div>
+      <div class="scale-legend">
+        1 = Not at all representative / Nada representativo &nbsp;·&nbsp; 5 = Highly representative / Muy representativo &nbsp;·&nbsp; N/A = Cannot assess / No puedo valorar
+      </div>
+
+      <!-- Items -->
+      <div id="items-wrapper">
+        <!-- I1 -->
+        <div class="item-row" data-item="i1">
+          <div class="item-label">
+            <div class="dim">I1 — Brand / Marca</div>
+            <div class="en">"The brand has an attractive image and generates positive feelings among people."</div>
+            <div class="es">"La marca tiene una imagen atractiva y genera sentimientos positivos entre las personas."</div>
+          </div>
+          <div class="score-options">
+            <div class="score-cell"><input type="radio" name="i1" value="1"><label>1</label></div>
+            <div class="score-cell"><input type="radio" name="i1" value="2"><label>2</label></div>
+            <div class="score-cell"><input type="radio" name="i1" value="3"><label>3</label></div>
+            <div class="score-cell"><input type="radio" name="i1" value="4"><label>4</label></div>
+            <div class="score-cell"><input type="radio" name="i1" value="5"><label>5</label></div>
+            <div class="score-cell"><input type="radio" name="i1" value="NA"><label>N/A</label></div>
+          </div>
+        </div>
+        <!-- I2 -->
+        <div class="item-row" data-item="i2">
+          <div class="item-label">
+            <div class="dim">I2 — Performance Satisfaction / Satisfacción con el desempeño</div>
+            <div class="en">"The company is reliable and effective in delivering its products, services, and commitments."</div>
+            <div class="es">"La empresa es fiable y efectiva en la entrega de sus productos, servicios y compromisos."</div>
+          </div>
+          <div class="score-options">
+            <div class="score-cell"><input type="radio" name="i2" value="1"><label>1</label></div>
+            <div class="score-cell"><input type="radio" name="i2" value="2"><label>2</label></div>
+            <div class="score-cell"><input type="radio" name="i2" value="3"><label>3</label></div>
+            <div class="score-cell"><input type="radio" name="i2" value="4"><label>4</label></div>
+            <div class="score-cell"><input type="radio" name="i2" value="5"><label>5</label></div>
+            <div class="score-cell"><input type="radio" name="i2" value="NA"><label>N/A</label></div>
+          </div>
+        </div>
+        <!-- I3 -->
+        <div class="item-row" data-item="i3">
+          <div class="item-label">
+            <div class="dim">I3 — Transparency / Transparencia</div>
+            <div class="en">"The company provides clear and sufficient information about its activities, products, and services."</div>
+            <div class="es">"La empresa proporciona información clara y suficiente sobre sus actividades, productos y servicios."</div>
+          </div>
+          <div class="score-options">
+            <div class="score-cell"><input type="radio" name="i3" value="1"><label>1</label></div>
+            <div class="score-cell"><input type="radio" name="i3" value="2"><label>2</label></div>
+            <div class="score-cell"><input type="radio" name="i3" value="3"><label>3</label></div>
+            <div class="score-cell"><input type="radio" name="i3" value="4"><label>4</label></div>
+            <div class="score-cell"><input type="radio" name="i3" value="5"><label>5</label></div>
+            <div class="score-cell"><input type="radio" name="i3" value="NA"><label>N/A</label></div>
+          </div>
+        </div>
+        <!-- I4 -->
+        <div class="item-row" data-item="i4">
+          <div class="item-label">
+            <div class="dim">I4 — Integrity / Integridad</div>
+            <div class="en">"The company acts ethically and honestly in the marketplace."</div>
+            <div class="es">"La empresa actúa de forma ética y honesta en el mercado."</div>
+          </div>
+          <div class="score-options">
+            <div class="score-cell"><input type="radio" name="i4" value="1"><label>1</label></div>
+            <div class="score-cell"><input type="radio" name="i4" value="2"><label>2</label></div>
+            <div class="score-cell"><input type="radio" name="i4" value="3"><label>3</label></div>
+            <div class="score-cell"><input type="radio" name="i4" value="4"><label>4</label></div>
+            <div class="score-cell"><input type="radio" name="i4" value="5"><label>5</label></div>
+            <div class="score-cell"><input type="radio" name="i4" value="NA"><label>N/A</label></div>
+          </div>
+        </div>
+        <!-- I5 -->
+        <div class="item-row" data-item="i5">
+          <div class="item-label">
+            <div class="dim">I5 — Social Impact / Impacto social</div>
+            <div class="en">"The company contributes positively to the betterment of society."</div>
+            <div class="es">"La empresa contribuye positivamente a la mejora de la sociedad."</div>
+          </div>
+          <div class="score-options">
+            <div class="score-cell"><input type="radio" name="i5" value="1"><label>1</label></div>
+            <div class="score-cell"><input type="radio" name="i5" value="2"><label>2</label></div>
+            <div class="score-cell"><input type="radio" name="i5" value="3"><label>3</label></div>
+            <div class="score-cell"><input type="radio" name="i5" value="4"><label>4</label></div>
+            <div class="score-cell"><input type="radio" name="i5" value="5"><label>5</label></div>
+            <div class="score-cell"><input type="radio" name="i5" value="NA"><label>N/A</label></div>
+          </div>
+        </div>
+      </div>
+      <p class="error-msg" id="err-items">Please rate all five items. / Por favor valora los cinco ítems.</p>
+
+      <hr class="sep">
+
+      <!-- SECTION 3: OVERALL -->
+      <div class="section-title">
+        <span class="section-number">3</span>
+        Overall Model Assessment / Valoración global del modelo
+      </div>
+
+      <div class="global-question">
+        <p>To what extent do the five items, taken together, adequately capture corporate reputation as stakeholders' perceived alignment with shared institutionalized expectations?</p>
+        <p class="es">¿En qué medida los cinco ítems, en conjunto, capturan adecuadamente la reputación corporativa como alineamiento percibido con las expectativas institucionalizadas?</p>
+        <div class="global-score-row">
+          <div class="global-score-btn">
+            <input type="radio" name="overall" id="o1" value="1">
+            <label for="o1">1<br><small>Very<br>inadequate</small></label>
+          </div>
+          <div class="global-score-btn">
+            <input type="radio" name="overall" id="o2" value="2">
+            <label for="o2">2<br><small>Inadequate</small></label>
+          </div>
+          <div class="global-score-btn">
+            <input type="radio" name="overall" id="o3" value="3">
+            <label for="o3">3<br><small>Acceptable</small></label>
+          </div>
+          <div class="global-score-btn">
+            <input type="radio" name="overall" id="o4" value="4">
+            <label for="o4">4<br><small>Adequate</small></label>
+          </div>
+          <div class="global-score-btn">
+            <input type="radio" name="overall" id="o5" value="5">
+            <label for="o5">5<br><small>Very<br>adequate</small></label>
+          </div>
+        </div>
+      </div>
+      <p class="error-msg" id="err-overall">Please select a score. / Por favor selecciona una puntuación.</p>
+
+      <hr class="sep">
+
+      <!-- SECTION 4: COMMENTS -->
+      <div class="section-title">
+        <span class="section-number">4</span>
+        Open Comments / Comentarios abiertos <span style="font-weight:400;font-size:0.85rem;color:#888">(optional / opcional)</span>
+      </div>
+      <p class="section-desc">
+        Do you have any suggestions for improving the items or the model?<br>
+        <span class="es">¿Tienes alguna sugerencia de mejora sobre los ítems o el modelo?</span>
+      </p>
+      <textarea name="comments" placeholder="Your comments here... / Tus comentarios aquí..."></textarea>
+
+      <hr class="sep">
+
+      <!-- SECTION 5: PROFILE -->
+      <div class="section-title">
+        <span class="section-number">5</span>
+        Panel Profile / Perfil del panel
+      </div>
+      <p class="section-desc">
+        For publication documentation only. Completely anonymous.<br>
+        <span class="es">Solo para documentación de la publicación. Completamente anónimo.</span>
+      </p>
+
+      <div class="profile-grid">
+        <div class="field-group" id="fg-years">
+          <label for="years">Years of experience <span class="req">*</span></label>
+          <span class="sublabel">En reputación corporativa, comunicación estratégica o campos relacionados</span>
+          <input type="number" id="years" name="years" min="1" max="60" placeholder="e.g. 20">
+          <p class="error-msg" id="err-years">Required / Requerido</p>
+        </div>
+
+        <div class="field-group" id="fg-role">
+          <label for="role">Primary role / Rol principal <span class="req">*</span></label>
+          <select id="role" name="role">
+            <option value="">Select / Selecciona…</option>
+            <option value="Academic">Academic / Académico/a</option>
+            <option value="Practitioner">Practitioner / Profesional</option>
+            <option value="Both">Both / Ambos</option>
+          </select>
+          <p class="error-msg" id="err-role">Required / Requerido</p>
+        </div>
+
+        <div class="field-group" id="fg-country" style="grid-column: 1 / -1">
+          <label for="country">Country / region of activity <span class="req">*</span></label>
+          <span class="sublabel">País o región principal de actividad profesional</span>
+          <input type="text" id="country" name="country" placeholder="e.g. Spain / España">
+          <p class="error-msg" id="err-country">Required / Requerido</p>
+        </div>
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="submit-area">
+        <button type="submit" id="submit-btn">Submit / Enviar</button>
+        <p style="margin-top:12px;font-size:0.8rem;color:#888">
+          Your responses are saved securely and anonymously.<br>
+          Tus respuestas se guardan de forma segura y anónima.
+        </p>
+      </div>
+
+    </form>
+  </div><!-- /.card -->
+
+  <!-- SUCCESS SCREEN -->
+  <div class="card" id="success-screen">
+    <div class="checkmark">✅</div>
+    <h2>Thank you! / ¡Gracias!</h2>
+    <p>
+      Your response has been recorded.<br>
+      <span style="color:#777;font-style:italic">Tu respuesta ha sido registrada.</span>
+    </p>
+    <p style="margin-top:16px;font-size:0.88rem">
+      Your contribution is essential to the academic rigor of this research.<br>
+      <span style="color:#777;font-style:italic">Tu contribución es esencial para el rigor académico de esta investigación.</span>
+    </p>
+  </div>
+
+</div><!-- /.wrapper -->
+
+<script>
+  // ── Replace with your deployed Apps Script URL ──
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyyyHpuOyA9pQs85GI8lV02s4Ghf6tk3mpuOblsPu-8NET7gbD24ys9dpwKyDk8oYaJJA/exec";
+
+  // ── Progress bar update
+  function updateProgress() {
+    const fields = [
+      document.querySelector('input[name="participation"]:checked'),
+      document.querySelector('input[name="i1"]:checked'),
+      document.querySelector('input[name="i2"]:checked'),
+      document.querySelector('input[name="i3"]:checked'),
+      document.querySelector('input[name="i4"]:checked'),
+      document.querySelector('input[name="i5"]:checked'),
+      document.querySelector('input[name="overall"]:checked'),
+      document.getElementById('years').value,
+      document.getElementById('role').value,
+      document.getElementById('country').value,
+    ];
+    const filled = fields.filter(Boolean).length;
+    document.getElementById('progress').style.width = (filled / fields.length * 100) + '%';
+  }
+  document.getElementById('gers-form').addEventListener('change', updateProgress);
+  document.getElementById('gers-form').addEventListener('input', updateProgress);
+
+  // ── Validation
+  function validate() {
+    let valid = true;
+
+    // Participation
+    if (!document.querySelector('input[name="participation"]:checked')) {
+      document.getElementById('err-participation').classList.add('show');
+      valid = false;
+    } else {
+      document.getElementById('err-participation').classList.remove('show');
+    }
+
+    // Items
+    const items = ['i1','i2','i3','i4','i5'];
+    const allRated = items.every(i => document.querySelector(`input[name="${i}"]:checked`));
+    if (!allRated) {
+      document.getElementById('err-items').classList.add('show');
+      valid = false;
+    } else {
+      document.getElementById('err-items').classList.remove('show');
+    }
+
+    // Overall
+    if (!document.querySelector('input[name="overall"]:checked')) {
+      document.getElementById('err-overall').classList.add('show');
+      valid = false;
+    } else {
+      document.getElementById('err-overall').classList.remove('show');
+    }
+
+    // Profile fields
+    const profileChecks = [
+      { id: 'years',   errId: 'err-years',   fgId: 'fg-years' },
+      { id: 'role',    errId: 'err-role',    fgId: 'fg-role' },
+      { id: 'country', errId: 'err-country', fgId: 'fg-country' },
+    ];
+    profileChecks.forEach(({ id, errId, fgId }) => {
+      const el = document.getElementById(id);
+      if (!el.value || el.value.trim() === '') {
+        document.getElementById(errId).classList.add('show');
+        document.getElementById(fgId).classList.add('field-error');
+        valid = false;
+      } else {
+        document.getElementById(errId).classList.remove('show');
+        document.getElementById(fgId).classList.remove('field-error');
+      }
+    });
+
+    return valid;
+  }
+
+  // ── Collect form data
+  function collectData() {
+    const get = name => {
+      const el = document.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : '';
+    };
+    return {
+      participation: get('participation'),
+      i1:           get('i1'),
+      i2:           get('i2'),
+      i3:           get('i3'),
+      i4:           get('i4'),
+      i5:           get('i5'),
+      overall:      get('overall'),
+      comments:     document.querySelector('textarea[name="comments"]').value.trim(),
+      years:        document.getElementById('years').value,
+      role:         document.getElementById('role').value,
+      country:      document.getElementById('country').value.trim(),
+    };
+  }
+
+  // ── Submit
+  document.getElementById('gers-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!validate()) {
+      document.querySelector('.error-msg.show')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Sending… / Enviando…';
+
+    try {
+      const data = collectData();
+
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      // Show success
+      document.getElementById('form-wrapper').style.display = 'none';
+      const success = document.getElementById('success-screen');
+      success.style.display = 'block';
+      success.scrollIntoView({ behavior: 'smooth' });
+
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Submit / Enviar';
+      alert('Error submitting. Please try again. / Error al enviar. Por favor inténtalo de nuevo.');
+      console.error(err);
+    }
+  });
+</script>
+</body>
+</html>
